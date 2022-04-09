@@ -12,5 +12,6 @@
     "server_id": "",
     "use_discord_bot": true,
     "fetch_at_start": true,
-    "refreshInterval": 300000
+    "refreshInterval": 300000,
+    "user_id": ""
 }

@@ -5,5 +5,6 @@ interface Configuration {
     use_discord_bot: boolean,
     fetch_at_start: boolean,
     refreshInterval: number,
-    server_id: string
+    server_id: string,
+    user_id: string
 }

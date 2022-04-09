@@ -16,6 +16,7 @@ export function handleInteractions(client:DiscordClient) {
 async function handleCommandInteractions(client:DiscordClient, interaction:CommandInteraction) {
     const commandName = interaction.commandName;
     //a real command handler is useless rn
+    if(interaction.user.id !== client.VintedApi.configuration.user_id) return;
     if(client.commands.has(commandName)) {
         const command:VintedBotCommand|null = client.commands.get(commandName) ?? null;
         if(!command) return;
