@@ -30,6 +30,19 @@ const ms = require("ms");
     const userId = await question("Your user Id : ");
     config.user_id = userId;
 
+    const userIdLocked = await question("User Id Locked (y/n) : ");
+    switch(userIdLocked.toLowerCase()) {
+        case "y":
+            config.user_id_locked = true;
+            break;
+        case "n":
+            config.user_id_locked = false;
+            break;
+        default:
+            return console.log("Invalid input");
+            break;
+    }
+
     fs.writeFile("config.json", JSON.stringify(config, null, 4), () => {
         console.log("Config file written successfully !\nNow, you have to complete search queries in the config.json file and then start the bot!");
         process.exit(0);
