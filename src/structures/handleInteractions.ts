@@ -1,6 +1,7 @@
 import { ButtonInteraction, CommandInteraction, Interaction, MessageEmbed } from "discord.js";
-import { DiscordClient } from "../DiscordClient";
-import { strToBigText } from "../strToBigText";
+import { VintedBotCommand } from "./ApplicationCommandInterface";
+import { DiscordClient } from "./DiscordClient";
+import { strToBigText } from "./strToBigText";
 
 export function handleInteractions(client:DiscordClient) {
     client.on("interactionCreate", async(interaction:Interaction) => {
@@ -15,12 +16,10 @@ export function handleInteractions(client:DiscordClient) {
 async function handleCommandInteractions(client:DiscordClient, interaction:CommandInteraction) {
     const commandName = interaction.commandName;
     //a real command handler is useless rn
-    switch(commandName) {
-        case "executequeries":
-            interaction.reply({content: "✅"}).catch(console.warn);
-            await client.VintedApi.executeQueries();
-      
-        break;
+    if(client.commands.has(commandName)) {
+        const command:VintedBotCommand|null = client.commands.get(commandName) ?? null;
+        if(!command) return;
+        command.execute(client, interaction);
     }
 }
 

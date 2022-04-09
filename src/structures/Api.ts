@@ -4,6 +4,7 @@ import { Message } from "./Message";
 import { Types } from "./MessageComponent";
 import { ButtonStyles } from "./ButtonComponent";
 import { UnparsedCompleteInfos } from "./UnparsedCompleteInfos";
+import { PreviewItemToEmbed } from "./PreviewItemToEmbed";
 
 const wait = require("util").promisify(setTimeout);
 
@@ -51,52 +52,28 @@ export class Api {
         return parsedData;
     }
 
-    public async executeQueries() {
-        for await(const search of this.configuration.searches) {
-            console.log("Searching for : " + search.name);
-            let result:PreviewItem[] = [];
-            for await(const query of search.queries) {
-                const url = `https://www.vinted.fr/api/v2/catalog/items?${query}&per_page=100`;
+    private async getContent(queries:string[], search:Search) {
+        let result:PreviewItem[] = [];
+        for (var query of queries) {
+            const url = `https://www.vinted.fr/api/v2/catalog/items?${query.replace(/ /g, "+")}&per_page=50`;
                 const data = await this.executeQuery(url, search.min_price, search.max_price, search.sizeInLetters);
                 result = result.concat(data); 
-            }
-            console.log("Got " + result.length + " results")
+        }
+        return result;
+    }
+
+    public async executeQueries() {
+
+           this.configuration.searches.forEach(async(search) => {
+        //for await(var search of this.configuration.searches) {
+        
+            console.log("Searching for : " + search.name);
+            const result = await this.getContent(search.queries, search);
+            console.log("Got " + result.length + " results for " + search.name);
             const messages:Message[] = result.map((vintedItem:PreviewItem) => {
                 return {
                     content: "",
-                    embeds: [{
-
-                            "url": vintedItem.url,
-                        
-                        "title": vintedItem.title,
-                        "color": this.configuration.embed_color,
-                        fields: [{
-                         "name": "💲 Prix",
-                         "value": '```fix\n' + vintedItem.price + " " + vintedItem.currency + '```',
-                         "inline": true
-                        }, {
-                         "name": "🗼 Taille",
-                         "value": `\`\`\`fix
-${vintedItem.size_title}\`\`\``,
-                         "inline": true
-                        }, {
-                         "name": "👚 Marque",
-                         "value": `\`\`\`fix
-${vintedItem.brand_title}\`\`\``,
-                         "inline": true
-                        },
-                        {
-                          "name": "Profil de l'utilisateur",
-                          "value": "`" + vintedItem.user.login + "`" + " [Cliquez ici](" + vintedItem.user.profile_url + ")"
-                        }],
-                        "footer": {
-                            "text": "Made by Ramok (github.com/RamokTVL), if you paid this you got scammed."
-                        },
-                        "timestamp": new Date().toISOString(),
-                        "image": {
-                            "url": vintedItem.photo?.url ?? ""
-                        }
-                    }],
+                    embeds: [PreviewItemToEmbed(vintedItem, this.configuration).toJSON() as MessageEmbed],
                  components: [{
                     type: Types.ACTION_R0W,
                     components: [{
@@ -121,7 +98,7 @@ ${vintedItem.brand_title}\`\`\``,
             }
 
 
-        }
+        });//);
     }
 
     private async executeQuery(url:string, min_price: number, max_price: number, sizeInLetters:boolean):Promise<PreviewItem[]> {

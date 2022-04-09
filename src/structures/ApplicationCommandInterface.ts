@@ -1,9 +1,13 @@
-export interface ApplicationCommand {
+import { Awaitable, CommandInteraction } from "discord.js"
+import { DiscordClient } from "./DiscordClient"
+
+export interface VintedBotCommand {
     id?: number,
     type: ApplicationCommandTypes,
     name: string,
     descripton: string,
-    options?: ApplicationCommandOption
+    options?: ApplicationCommandOption,
+    execute: (client: DiscordClient, interaction: CommandInteraction) => Promise<void>
 }
 
 interface ApplicationCommandOption {
@@ -23,7 +27,7 @@ interface ApplicationCommandOptionChoice {
     value: string
 }
 
-enum ApplicationCommandOptionType {
+export enum ApplicationCommandOptionType {
     SUB_COMMAND = 1,
     SUB_COMMAND_GROUP = 2,
     STRING = 3,
@@ -37,7 +41,7 @@ enum ApplicationCommandOptionType {
     ATTACHMENT = 11
 }
 
-enum ApplicationCommandTypes {
+export enum ApplicationCommandTypes {
     CHAT_INPUT =1,
     USER = 2,
     MESSAGE = 3
