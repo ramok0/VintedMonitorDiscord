@@ -5,6 +5,7 @@ import { strToBigText } from "./strToBigText";
 
 export function handleInteractions(client:DiscordClient) {
     client.on("interactionCreate", async(interaction:Interaction) => {
+        client.VintedApi.logger.log(`Interaction created with id : ${interaction.id}`, "INFO");
         if(interaction.isButton()) {
             handleButtonInteraction(client, interaction);
         } else if(interaction.isCommand()) {
@@ -15,7 +16,7 @@ export function handleInteractions(client:DiscordClient) {
 
 async function handleCommandInteractions(client:DiscordClient, interaction:CommandInteraction) {
     const commandName = interaction.commandName;
-    //a real command handler is useless rn
+    client.VintedApi.logger.log("Command name : " + commandName, "INFO");
     if((interaction.user.id !== client.VintedApi.configuration.user_id) && client.VintedApi.configuration.user_id_locked == true) return;
     if(client.commands.has(commandName)) {
         const command:VintedBotCommand|null = client.commands.get(commandName) ?? null;
