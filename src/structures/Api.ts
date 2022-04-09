@@ -8,7 +8,7 @@ import { UnparsedCompleteInfos } from "./UnparsedCompleteInfos";
 const wait = require("util").promisify(setTimeout);
 
 export class Api {
-    private configuration:Configuration;
+    public configuration:Configuration;
     private rest:Rest;
     private trashBin:number[];
     constructor(settings:Configuration) {
