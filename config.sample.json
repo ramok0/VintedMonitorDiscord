@@ -10,11 +10,11 @@
     }],
     "discord_token": "",
     "embed_color": 6996745,
+    "refreshInterval": 300000,
     "server_id": "",
+    "user_id": "",
     "use_discord_bot": true,
     "fetch_at_start": true,
-    "refreshInterval": 300000,
-    "user_id": "",
     "user_id_locked": true,
     "logs_in_console": true
 }
