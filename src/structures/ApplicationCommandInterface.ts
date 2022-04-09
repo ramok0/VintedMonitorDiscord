@@ -6,7 +6,7 @@ export interface VintedBotCommand {
     type: ApplicationCommandTypes,
     name: string,
     description: string,
-    options?: ApplicationCommandOption,
+    options?: ApplicationCommandOption[],
     execute: (client: DiscordClient, interaction: CommandInteraction) => Promise<void>
 }
 
