@@ -37,7 +37,7 @@ And then you just have to complete the config.json file with your search params.
 
 - Translate in french & fix my english
 
-- Improve the code structrure
+- Improve style
 
 
 ## Demo Time
