@@ -64,7 +64,7 @@ export class Api {
 
     public async executeQueries() {
 
-           this.configuration.searches.forEach(async(search) => {
+           this.configuration.searches.filter(search => search.disabled == false).forEach(async(search) => {
         //for await(var search of this.configuration.searches) {
         
             console.log("Searching for : " + search.name);

@@ -4,5 +4,6 @@ interface Search {
     queries: string[],
     min_price: number,
     max_price: number,
-    sizeInLetters: boolean
+    sizeInLetters: boolean,
+    disabled: boolean
 }

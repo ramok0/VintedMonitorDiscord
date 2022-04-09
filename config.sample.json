@@ -5,7 +5,8 @@
         "queries": [],
         "min_price": 0,
         "max_price": 0,
-        "sizeInLetters": false
+        "sizeInLetters": false,
+        "disabled": false
     }],
     "discord_token": "",
     "embed_color": 6996745,
