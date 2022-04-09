@@ -24,6 +24,9 @@ const ms = require("ms");
         return console.log("Invalid input");
     }
 
+    const serverId = await question("Server id : ");
+    config.server_id = serverId;
+
     fs.writeFile("config.json", JSON.stringify(config, null, 4), () => {
         console.log("Config file written successfully !\nNow, you have to complete search queries in the config.json file and then start the bot!");
         process.exit(0);

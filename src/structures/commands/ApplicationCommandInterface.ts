@@ -1,5 +1,5 @@
 export interface ApplicationCommand {
-    id: number,
+    id?: number,
     type: ApplicationCommandTypes,
     name: string,
     descripton: string,

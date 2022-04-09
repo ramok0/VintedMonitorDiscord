@@ -4,5 +4,6 @@ interface Configuration {
     embed_color: number,
     use_discord_bot: boolean,
     fetch_at_start: boolean,
-    refreshInterval: number
+    refreshInterval: number,
+    server_id: string
 }

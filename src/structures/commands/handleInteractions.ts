@@ -16,7 +16,7 @@ async function handleCommandInteractions(client:DiscordClient, interaction:Comma
     const commandName = interaction.commandName;
     //a real command handler is useless rn
     switch(commandName) {
-        case "executeQueries":
+        case "executequeries":
             await client.VintedApi.executeQueries();
             interaction.reply({content: "✅"}).catch(console.warn);
         break;

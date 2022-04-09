@@ -9,6 +9,7 @@
     }],
     "discord_token": "",
     "embed_color": 6996745,
+    "server_id": "",
     "use_discord_bot": true,
     "fetch_at_start": true,
     "refreshInterval": 300000
