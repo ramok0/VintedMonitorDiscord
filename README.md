@@ -37,9 +37,6 @@ And then you just have to complete the config.json file with your search params.
 
 - Translate in french & fix my english
 
-- Improve style
-
-
 ## Demo Time
 
 ![demo](https://cdn.discordapp.com/attachments/946871799151476798/962350387342475365/demo.gif)
