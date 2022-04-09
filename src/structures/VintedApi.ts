@@ -3,6 +3,7 @@ import { Rest } from "./Rest";
 import { Message, Types, ButtonStyles, MessageEmbed } from "./interfaces/Message";
 import { UnparsedCompleteInfos } from "./api/ItemInfo";
 import { PreviewItemToEmbed } from "./functions/PreviewItemToEmbed";
+import { Logger } from "./Logger";
 
 
 const wait = require("util").promisify(setTimeout);
@@ -11,10 +12,12 @@ export class VintedApi {
     public configuration:Configuration;
     private rest:Rest;
     private trashBin:number[];
+    public logger:Logger;
     constructor(settings:Configuration) {
         this.configuration = settings;
         this.rest = new Rest(this);
         this.trashBin = [];
+        this.logger = new Logger(this);
     }
 
     public async fetchCompleteInfos(id:string):Promise<MonitorItemFullInfo> {
@@ -55,17 +58,14 @@ export class VintedApi {
         let result:PreviewItem[] = [];
         for (var query of queries) {
             const url = `https://www.vinted.fr/api/v2/catalog/items?${query.replace(/ /g, "+")}&per_page=50`;
-                const data = await this.executeQuery(url, search.min_price, search.max_price, search.sizeInLetters);
-                result = result.concat(data); 
+            const data = await this.executeQuery(url, search.min_price, search.max_price, search.sizeInLetters);
+            result = result.concat(data); 
         }
         return result;
     }
 
     public async executeQueries() {
-
-           this.configuration.searches.filter(search => search.disabled == false).forEach(async(search) => {
-        //for await(var search of this.configuration.searches) {
-        
+        this.configuration.searches.filter(search => search.disabled == false).forEach(async(search) => {
             console.log("Searching for : " + search.name);
             const result = await this.getContent(search.queries, search);
             console.log("Got " + result.length + " results for " + search.name);
@@ -74,18 +74,18 @@ export class VintedApi {
                     content: "",
                     embeds: [PreviewItemToEmbed(vintedItem, this.configuration).toJSON() as MessageEmbed],
                     components: [{
-                    type: Types.ACTION_R0W,
-                    components: [{
-                        type: Types.BUTTON,
-                        style: ButtonStyles.GREEN,
-                        label: "Plus d'informations",
-                       emoji: {
-                           id: null,
-                           name: "⁉️"
-                       },
-                        custom_id: vintedItem.id
-                    }]
-                }]
+                        type: Types.ACTION_R0W,
+                        components: [{
+                            type: Types.BUTTON,
+                            style: ButtonStyles.GREEN,
+                            label: "Plus d'informations",
+                            emoji: {
+                                 id: null,
+                                 name: "⁉️"
+                            },
+                           custom_id: vintedItem.id
+                     }]
+                  }]
                 }
             });
             
@@ -99,9 +99,7 @@ export class VintedApi {
                     await wait(parseFloat(response.headers["x-ratelimit-reset-after"])*1000);
                 }
             }
-
-
-        });//);
+        });
     }
 
     private async executeQuery(url:string, min_price: number, max_price: number, sizeInLetters:boolean):Promise<PreviewItem[]> {
