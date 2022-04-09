@@ -12,7 +12,8 @@ const fs = require("fs");
         return {
             name: command.name,
             description: command.description,
-            type: command.type
+            type: command.type,
+            options: command.options ?? []
         }
     });
 
