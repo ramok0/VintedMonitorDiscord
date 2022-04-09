@@ -3,7 +3,7 @@ const fs = require("fs");
 
 (async() => {
     if(!fs.existsSync("config.json")) return console.error("Config.json not found ! Please run configurator before starting this file");
-    const config = require("./config.json");
+    const config = require("../config.json");
     const {server_id, discord_token} = config;
     const data = {
         name: "executequeries",
