@@ -1,7 +1,7 @@
 {
-  "name": "vinted-monitor-mais-je-recommence-en-ts",
-  "version": "1.0.1",
-  "description": "",
+  "name": "vinted-monitor",
+  "version": "1.0.5",
+  "description": "A little monitor to vinted that uses Discord as graphical interface.",
   "main": "dist/index.js",
   "scripts": {
     "build": "npx tsc",
