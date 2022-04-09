@@ -8,7 +8,6 @@
         "sizeInLetters": true
     }],
     "discord_token": "",
-    "server_id": "",
     "embed_color": 6996745,
     "use_discord_bot": true,
     "fetch_at_start": true,
