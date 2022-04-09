@@ -15,5 +15,5 @@ export enum ConsoleColors {
 }
 
 export function writeColor(text:string, color:ConsoleColors, logType:LogType):void {
-    console.log(`[${color}${logType}${ConsoleColors.Red}] ${text}${ConsoleColors.Reset}`);
+    console.log(`[ ${color}${logType}${ConsoleColors.Reset} ] ${text}${ConsoleColors.Reset}`);
 }
