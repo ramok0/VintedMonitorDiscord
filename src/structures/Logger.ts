@@ -12,7 +12,7 @@ export class Logger extends Base {
         this.init();
     }
 
-    init() {
+    private init() {
         const start = `# VintedMonitorDiscord logger initialisation - `;
         if(!fs.existsSync("logs")) {
             fs.mkdirSync("logs");
