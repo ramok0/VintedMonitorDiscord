@@ -18,9 +18,11 @@ export class VintedApi {
         this.rest = new Rest(this);
         this.trashBin = [];
         this.logger = new Logger(this);
+        this.logger.log("Created VintedApi successfully", "OK");
     }
 
     public async fetchCompleteInfos(id:string):Promise<MonitorItemFullInfo> {
+        this.logger.log(`Fetching complete infos for id : ${id}`, "INFO");
         const cookie = await this.getCookie();
         const response = await this.rest.request(`https://vinted.fr/api/v2/items/${id}`, "GET", {
             "Cookie": "_vinted_fr_session=" + cookie
@@ -50,25 +52,27 @@ export class VintedApi {
             created_at: data.item.created_at,
             etat: data.item.status
         }
-
+        this.logger.log(`Complete infos fetched for id : ${id}`, "OK");
         return parsedData;
     }
 
     private async getContent(queries:string[], search:Search) {
+        this.logger.log(`Getting content for search : ${search.name}`, "INFO");
         let result:PreviewItem[] = [];
         for (var query of queries) {
             const url = `https://www.vinted.fr/api/v2/catalog/items?${query.replace(/ /g, "+")}&per_page=50`;
             const data = await this.executeQuery(url, search.min_price, search.max_price, search.sizeInLetters);
             result = result.concat(data); 
         }
+        this.logger.log(`Got content for search : ${search.name}`, "OK");
         return result;
     }
 
     public async executeQueries() {
+        this.logger.log(`Executing every queries`, "INFO");
         this.configuration.searches.filter(search => search.disabled == false).forEach(async(search) => {
-            console.log("Searching for : " + search.name);
             const result = await this.getContent(search.queries, search);
-            console.log("Got " + result.length + " results for " + search.name);
+            this.logger.log(`Got ${result.length} items for ${search.name}`, "OK");
             const messages:Message[] = result.map((vintedItem:PreviewItem) => {
                 return {
                     content: "",
@@ -89,6 +93,7 @@ export class VintedApi {
                 }
             });
             
+            this.logger.log(`Sending messages`, "INFO");
             for await(var message of messages) {
                 const response = await this.rest.request(`https://discord.com/api/v9/channels/${search.channel_id}/messages`, "POST", {
                     "Authorization": `Bot ${this.configuration.discord_token}`,
@@ -96,7 +101,9 @@ export class VintedApi {
                 }, false, message);
 
                 if(response.headers["x-ratelimit-remaining"] == '0') {
-                    await wait(parseFloat(response.headers["x-ratelimit-reset-after"])*1000);
+                    const ms = parseFloat(response.headers["x-ratelimit-reset-after"])*1000;
+                    this.logger.log(`Ratelimited by Discord, retring in ${ms}ms`, "INFO");
+                    await wait(ms);
                 }
             }
         });
@@ -126,6 +133,7 @@ export class VintedApi {
     } 
     
     private async getCookie():Promise<string> {
+        this.logger.log("Getting cookie for https://vinted.fr", "INFO");
         const response = await this.rest.request("https://vinted.fr", "GET");
         if(!response) {
             throw new Error("http error");
@@ -136,6 +144,7 @@ export class VintedApi {
             throw new Error("No headers found");
         }
         const value = headers[0].substring("_vinted_fr_session=".length).split(";")[0];
+        this.logger.log("Got cookie for https://vinted.fr", "OK");
         return value;
     }
 }
