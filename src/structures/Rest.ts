@@ -30,10 +30,7 @@ export class Rest extends Base {
     }
 
     private handleResponse(response:AxiosResponse) {
-        if(response.status.toString().startsWith("2")) {
-            console.log(`Request to ${new URL(response.config.url ?? "").hostname} ended with status code ${response.status}`);
-        }
-
+        this.VintedApi.logger.log(`Request to ${new URL(response.config.url ?? "").hostname} finished with status code ${response.status}`, /^2|3/i.test(response.status.toString()) ? "OK" : "ERROR");
         return response;
     }
 }
