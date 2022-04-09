@@ -18,10 +18,7 @@ export class DiscordClient extends Client {
             if(!VintedBotCommand) return;
             const command = new VintedBotCommand();
             this.commands.set(command.name, command);
-        })
-
-        
-
+        });
     }
 
     private getFiles(path:string):string[] {

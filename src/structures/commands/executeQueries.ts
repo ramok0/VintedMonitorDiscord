@@ -7,7 +7,7 @@ import { performance } from "perf_hooks";
 export default class implements VintedBotCommand {
     name = "executequeries";
     type = ApplicationCommandTypes.CHAT_INPUT;
-    descripton = "Execute every queries";
+    description = "Execute every queries";
     execute = async(client:DiscordClient, interaction:CommandInteraction):Promise<void> => {
         interaction.reply({content: "✅"}).catch(console.warn);
         const before = performance.now();

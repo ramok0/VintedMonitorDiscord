@@ -6,7 +6,7 @@ import { refreshConfiguration } from "../refreshConfiguration";
 export default class implements VintedBotCommand {
     type = ApplicationCommandTypes.CHAT_INPUT;
     name = "refreshconfigurations";
-    descripton = "Update the current config without restarting the bot";
+    description = "Update the current config without restarting the bot";
 
     execute = async(client: DiscordClient, interaction: CommandInteraction<CacheType>):Promise<void> => {
         refreshConfiguration(client.VintedApi);
