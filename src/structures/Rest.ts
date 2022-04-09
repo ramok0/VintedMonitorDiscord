@@ -1,8 +1,7 @@
-import axios, { AxiosRequestHeaders } from "axios";
+import axios, { AxiosRequestConfig, AxiosRequestHeaders, Method } from "axios";
 import { AxiosResponse } from "axios";
 import {VintedApi} from "./VintedApi";
 import { Base } from "./Base";
-import { Message } from "./interfaces/Message";
 import randomUseragent from 'random-useragent'
 
 export class Rest extends Base {
@@ -10,30 +9,23 @@ export class Rest extends Base {
         super(api);
     }
 
-    async get(url:string, headers:AxiosRequestHeaders) {
-        var ua = randomUseragent.getRandom(function (ua) {
-            return ua.browserName === 'Firefox';
-        });
-        headers["User-Agent"] = ua ?? ""; 
-        try {
-            const response = await axios.get(url, {
-                headers
-            })
-    
-            return this.handleResponse(response);
-        }catch(e) {
-            console.log(e);
+    async request(url:string, method:Method, headers:AxiosRequestHeaders = {}, randomUa: boolean = true, body:any|null = null) {
+        if(randomUa == true) {
+            var ua = randomUseragent.getRandom(function (ua) {return ua.browserName === 'Firefox' || ua.browserName == "Chrome";});
+            headers["User-Agent"] = ua ?? ""; 
         }
-    }
 
-    async post(url:string, body:string|Message, token:string) {
-        const response = await axios.post(url, body, {
-            headers: {
-                "Authorization": token,
-                "Content-Type": "application/json"
-            }
-        });
+        const axiosRequest:AxiosRequestConfig<any> = {
+            method,
+            url,
+            headers,
+        };
 
+        if(body != null) {
+            axiosRequest["data"] = body;
+        }
+
+        const response = await axios(axiosRequest);
         return this.handleResponse(response);
     }
 

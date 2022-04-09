@@ -4,6 +4,7 @@ import { Message, Types, ButtonStyles, MessageEmbed } from "./interfaces/Message
 import { UnparsedCompleteInfos } from "./api/ItemInfo";
 import { PreviewItemToEmbed } from "./functions/PreviewItemToEmbed";
 
+
 const wait = require("util").promisify(setTimeout);
 
 export class VintedApi {
@@ -18,7 +19,7 @@ export class VintedApi {
 
     public async fetchCompleteInfos(id:string):Promise<MonitorItemFullInfo> {
         const cookie = await this.getCookie();
-        const response = await this.rest.get(`https://vinted.fr/api/v2/items/${id}`, {
+        const response = await this.rest.request(`https://vinted.fr/api/v2/items/${id}`, "GET", {
             "Cookie": "_vinted_fr_session=" + cookie
         });
         if(!response) {
@@ -72,7 +73,7 @@ export class VintedApi {
                 return {
                     content: "",
                     embeds: [PreviewItemToEmbed(vintedItem, this.configuration).toJSON() as MessageEmbed],
-                 components: [{
+                    components: [{
                     type: Types.ACTION_R0W,
                     components: [{
                         type: Types.BUTTON,
@@ -89,7 +90,11 @@ export class VintedApi {
             });
             
             for await(var message of messages) {
-                const response = await this.rest.post(`https://discord.com/api/v9/channels/${search.channel_id}/messages`, message, `Bot ${this.configuration.discord_token}`);
+                const response = await this.rest.request(`https://discord.com/api/v9/channels/${search.channel_id}/messages`, "POST", {
+                    "Authorization": `Bot ${this.configuration.discord_token}`,
+                    "Content-Type": "application/json"
+                }, false, message);
+
                 if(response.headers["x-ratelimit-remaining"] == '0') {
                     await wait(parseFloat(response.headers["x-ratelimit-reset-after"])*1000);
                 }
@@ -101,9 +106,10 @@ export class VintedApi {
 
     private async executeQuery(url:string, min_price: number, max_price: number, sizeInLetters:boolean):Promise<PreviewItem[]> {
         const cookie = await this.getCookie();
-        const response = await this.rest.get(url, {
+        const response = await this.rest.request(url, "GET", {
             "Cookie": "_vinted_fr_session=" + cookie
         });
+
         if(!response) {
             throw new Error("http error");
         }
@@ -122,7 +128,7 @@ export class VintedApi {
     } 
     
     private async getCookie():Promise<string> {
-        const response = await this.rest.get("https://vinted.fr", {});
+        const response = await this.rest.request("https://vinted.fr", "GET");
         if(!response) {
             throw new Error("http error");
         }
@@ -132,7 +138,6 @@ export class VintedApi {
             throw new Error("No headers found");
         }
         const value = headers[0].substring("_vinted_fr_session=".length).split(";")[0];
-
         return value;
     }
 }
