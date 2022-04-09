@@ -7,5 +7,6 @@ interface Configuration {
     refreshInterval: number,
     server_id: string,
     user_id: string,
-    user_id_locked: boolean
+    user_id_locked: boolean,
+    logs_in_console: boolean
 }
