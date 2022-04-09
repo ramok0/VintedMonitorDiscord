@@ -15,7 +15,6 @@ export class DiscordClient extends Client {
         const files = this.getFiles("dist/structures/commands");
         files.forEach(async(file) => {
             const {default:VintedBotCommand} = await import("./commands/" + file);
-            console.log(VintedBotCommand)
             if(!VintedBotCommand) return;
             const command = new VintedBotCommand();
             this.commands.set(command.name, command);
