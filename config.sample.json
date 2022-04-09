@@ -1,11 +1,11 @@
 {
     "searches": [{
-        "name": "nike-jogging",
+        "name": "",
         "channel_id": "",
-        "queries": ["search_text=jogging nike&catalog[]=1821&size_id[]=207&size_id[]=208&brand_id[]=53&status[]=1&status[]=2&order=newest_first"],
-        "min_price": 5,
-        "max_price": 40,
-        "sizeInLetters": true
+        "queries": [],
+        "min_price": 0,
+        "max_price": 0,
+        "sizeInLetters": false
     }],
     "discord_token": "",
     "embed_color": 6996745,
