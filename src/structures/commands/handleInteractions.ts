@@ -1,23 +1,26 @@
-import { ButtonInteraction, Interaction, MessageEmbed } from "discord.js";
+import { ButtonInteraction, CommandInteraction, Interaction, MessageEmbed } from "discord.js";
 import { DiscordClient } from "../DiscordClient";
 import { strToBigText } from "../strToBigText";
 
 export function handleInteractions(client:DiscordClient) {
     client.on("interactionCreate", async(interaction:Interaction) => {
         if(interaction.isButton()) {
-            interaction as ButtonInteraction;
             handleButtonInteraction(client, interaction);
         } else if(interaction.isCommand()) {
-            const commandName = interaction.commandName;
-            //a real command handler is useless rn
-            switch(commandName) {
-                case "executeQueries":
-                    await client.VintedApi.executeQueries();
-                    interaction.reply({content: "✅"}).catch(console.warn);
-                break;
-            }
+            handleCommandInteractions(client, interaction);
         }
     });
+}
+
+async function handleCommandInteractions(client:DiscordClient, interaction:CommandInteraction) {
+    const commandName = interaction.commandName;
+    //a real command handler is useless rn
+    switch(commandName) {
+        case "executeQueries":
+            await client.VintedApi.executeQueries();
+            interaction.reply({content: "✅"}).catch(console.warn);
+        break;
+    }
 }
 
 async function handleButtonInteraction(client:DiscordClient, interaction:ButtonInteraction) {
