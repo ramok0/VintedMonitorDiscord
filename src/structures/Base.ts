@@ -1,7 +1,7 @@
-import { Api } from "./Api";
+import { VintedApi } from "./VintedApi";
 export class Base {
-    private api:Api;
-    constructor(api:Api) {
+    private api:VintedApi;
+    constructor(api:VintedApi) {
         this.api = api;
     }
 }

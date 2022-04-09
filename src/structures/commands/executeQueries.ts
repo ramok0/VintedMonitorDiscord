@@ -1,5 +1,5 @@
 import { CommandInteraction } from "discord.js";
-import { VintedBotCommand, ApplicationCommandTypes } from "../ApplicationCommandInterface";
+import { VintedBotCommand, ApplicationCommandTypes } from "../interfaces/ApplicationCommand";
 import { DiscordClient } from "../DiscordClient";
 import { performance } from "perf_hooks";
 

@@ -1,12 +1,12 @@
 import axios, { AxiosRequestHeaders } from "axios";
 import { AxiosResponse } from "axios";
-import {Api} from "./Api";
+import {VintedApi} from "./VintedApi";
 import { Base } from "./Base";
-import { Message } from "./Message";
+import { Message } from "./interfaces/Message";
 import randomUseragent from 'random-useragent'
-import {PreviewItemApiResponse} from "./PreviewItem"
+
 export class Rest extends Base {
-    constructor(api:Api) {
+    constructor(api:VintedApi) {
         super(api);
     }
 

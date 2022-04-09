@@ -1,8 +1,8 @@
 
 const config:Configuration = require("../config.json");
 import { setInterval } from "timers";
-import { Api } from "./structures/Api";
-import { handleInteractions } from "./structures/handleInteractions";
+import { VintedApi } from "./structures/VintedApi";
+import { handleInteractions } from "./structures/functions/handleInteractions";
 import { DiscordClient } from "./structures/DiscordClient";
 
 if(config.use_discord_bot) {
@@ -27,7 +27,7 @@ if(config.use_discord_bot) {
     
     client.login(config.discord_token);
 } else {
-    const api = new Api(config);
+    const api = new VintedApi(config);
     if(config.fetch_at_start == true) {
         api.executeQueries();
     } 

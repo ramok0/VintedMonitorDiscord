@@ -1,6 +1,6 @@
 import { ButtonInteraction, CommandInteraction, Interaction, MessageEmbed } from "discord.js";
-import { VintedBotCommand } from "./ApplicationCommandInterface";
-import { DiscordClient } from "./DiscordClient";
+import { VintedBotCommand } from "../interfaces/ApplicationCommand";
+import { DiscordClient } from "../DiscordClient";
 import { strToBigText } from "./strToBigText";
 
 export function handleInteractions(client:DiscordClient) {

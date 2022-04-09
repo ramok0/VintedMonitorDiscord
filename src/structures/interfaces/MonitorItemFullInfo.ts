@@ -1,4 +1,4 @@
-interface CompleteInformations {
+interface MonitorItemFullInfo {
     id: number,
     title: string,
     description: string,

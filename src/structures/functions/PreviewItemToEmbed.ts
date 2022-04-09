@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { PreviewItem } from "./PreviewItem";
+import { PreviewItem } from "../api/PreviewItem";
 
 export function PreviewItemToEmbed(item:PreviewItem, config:Configuration):MessageEmbed {
     const embed = new MessageEmbed();

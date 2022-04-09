@@ -1,5 +1,5 @@
-import { Awaitable, CommandInteraction } from "discord.js"
-import { DiscordClient } from "./DiscordClient"
+import { CommandInteraction } from "discord.js"
+import { DiscordClient } from "../DiscordClient"
 
 export interface VintedBotCommand {
     id?: number,

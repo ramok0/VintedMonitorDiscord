@@ -1,8 +1,8 @@
 import { CommandInteraction, CacheType } from "discord.js";
 import fs from "fs";
-import { ApplicationCommandOptionType, ApplicationCommandTypes, VintedBotCommand } from "../ApplicationCommandInterface";
+import { ApplicationCommandOptionType, ApplicationCommandTypes, VintedBotCommand } from "../interfaces/ApplicationCommand";
 import { DiscordClient } from "../DiscordClient";
-import { refreshConfiguration } from "../refreshConfiguration";
+import { refreshConfiguration } from "../functions/refreshConfiguration";
 
 
 export default class implements VintedBotCommand {

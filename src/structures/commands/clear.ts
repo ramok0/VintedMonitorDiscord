@@ -1,5 +1,5 @@
 import { CommandInteraction, CacheType, TextChannel } from "discord.js";
-import { ApplicationCommandOptionType, ApplicationCommandTypes, VintedBotCommand } from "../ApplicationCommandInterface";
+import { ApplicationCommandOptionType, ApplicationCommandTypes, VintedBotCommand } from "../interfaces/ApplicationCommand";
 import { DiscordClient } from "../DiscordClient";
 
 

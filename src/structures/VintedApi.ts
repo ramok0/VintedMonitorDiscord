@@ -1,14 +1,12 @@
-import { PreviewItemApiResponse, PreviewItem } from "./PreviewItem";
+import { PreviewItemApiResponse, PreviewItem } from "./api/PreviewItem";
 import { Rest } from "./Rest";
-import { Message } from "./Message";
-import { Types } from "./MessageComponent";
-import { ButtonStyles } from "./ButtonComponent";
-import { UnparsedCompleteInfos } from "./UnparsedCompleteInfos";
-import { PreviewItemToEmbed } from "./PreviewItemToEmbed";
+import { Message, Types, ButtonStyles, MessageEmbed } from "./interfaces/Message";
+import { UnparsedCompleteInfos } from "./api/ItemInfo";
+import { PreviewItemToEmbed } from "./functions/PreviewItemToEmbed";
 
 const wait = require("util").promisify(setTimeout);
 
-export class Api {
+export class VintedApi {
     public configuration:Configuration;
     private rest:Rest;
     private trashBin:number[];
@@ -18,7 +16,7 @@ export class Api {
         this.trashBin = [];
     }
 
-    public async fetchCompleteInfos(id:string):Promise<CompleteInformations> {
+    public async fetchCompleteInfos(id:string):Promise<MonitorItemFullInfo> {
         const cookie = await this.getCookie();
         const response = await this.rest.get(`https://vinted.fr/api/v2/items/${id}`, {
             "Cookie": "_vinted_fr_session=" + cookie
@@ -27,7 +25,7 @@ export class Api {
             throw new Error("http error");
         }
         const data:UnparsedCompleteInfos = response.data;
-        const parsedData:CompleteInformations = {
+        const parsedData:MonitorItemFullInfo = {
             id: data.item.id,
             title: data.item.title,
             description: data.item.description,

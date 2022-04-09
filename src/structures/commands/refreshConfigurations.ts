@@ -1,7 +1,7 @@
 import { CacheType, CommandInteraction } from "discord.js";
-import { VintedBotCommand, ApplicationCommandTypes } from "../ApplicationCommandInterface";
+import { VintedBotCommand, ApplicationCommandTypes } from "../interfaces/ApplicationCommand";
 import { DiscordClient } from "../DiscordClient";
-import { refreshConfiguration } from "../refreshConfiguration";
+import { refreshConfiguration } from "../functions/refreshConfiguration";
 
 export default class implements VintedBotCommand {
     type = ApplicationCommandTypes.CHAT_INPUT;
