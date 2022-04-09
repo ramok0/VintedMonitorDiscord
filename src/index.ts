@@ -7,12 +7,13 @@ import { DiscordClient } from "./structures/DiscordClient";
 
 if(config.use_discord_bot) {
     const client = new DiscordClient(config);
-
     client.on("ready", () => {
         handleInteractions(client);
         client.registerCommands();
-        console.log("Welcome to VintedDiscordBot\nThe bot is ready !");
-        console.log(`You can invite the bot to your server with this link : \nhttps://discord.com/oauth2/authorize?client_id=${client.user?.id}&scope=bot%20applications.commands&permissions=8`)
+        client.VintedApi.logger.log("Welcome to VintedDiscordBot", "INFO");
+        client.VintedApi.logger.log("The bot is ready", "OK");
+        client.VintedApi.logger.log(`You can invite the bot to your server with this link : \nhttps://discord.com/oauth2/authorize?client_id=${client.user?.id}&scope=bot%20applications.commands&permissions=8`, "INFO");
+
 
         if(config.fetch_at_start == true) {
             client.VintedApi.executeQueries();

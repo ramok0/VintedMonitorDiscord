@@ -4,6 +4,7 @@ import { Message, Types, ButtonStyles, MessageEmbed } from "./interfaces/Message
 import { UnparsedCompleteInfos } from "./api/ItemInfo";
 import { PreviewItemToEmbed } from "./functions/PreviewItemToEmbed";
 import { Logger } from "./Logger";
+import { checkConfigIntegrity } from "./functions/checkConfigIntregrity";
 
 
 const wait = require("util").promisify(setTimeout);
@@ -19,6 +20,10 @@ export class VintedApi {
         this.trashBin = [];
         this.logger = new Logger(this);
         this.logger.log("Created VintedApi successfully", "OK");
+        if(!checkConfigIntegrity(this.configuration, this.logger)) {
+            
+            process.exit(1);
+        }
     }
 
     public async fetchCompleteInfos(id:string):Promise<MonitorItemFullInfo> {
