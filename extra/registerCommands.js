@@ -13,7 +13,7 @@ const fs = require("fs");
             name: command.name,
             description: command.description,
             type: command.type,
-            options: command.options ?? []
+            options: command.options == null ? [] : command.options
         }
     });
 
