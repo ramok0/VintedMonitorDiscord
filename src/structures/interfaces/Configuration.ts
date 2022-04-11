@@ -1,5 +1,5 @@
 interface Configuration {
-    searches: Search[],
+    items: ItemToSearch[],
     discord_token: string,
     embed_color: number,
     use_discord_bot: boolean,

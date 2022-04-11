@@ -61,23 +61,23 @@ export class VintedApi {
         return parsedData;
     }
 
-    private async getContent(queries:string[], search:Search) {
-        this.logger.log(`Getting content for search : ${search.name}`, "INFO");
+    private async getContent(queries:string[], item:ItemToSearch) {
+        this.logger.log(`Getting content for item : ${item.name}`, "INFO");
         let result:PreviewItem[] = [];
         for (var query of queries) {
             const url = `https://www.vinted.fr/api/v2/catalog/items?${query.replace(/ /g, "+")}&per_page=50`;
-            const data = await this.executeQuery(url, search.min_price, search.max_price, search.sizeInLetters);
+            const data = await this.executeQuery(url, item.min_price, item.max_price, item.sizeInLetters);
             result = result.concat(data); 
         }
-        this.logger.log(`Got content for search : ${search.name}`, "OK");
+        this.logger.log(`Got content for item : ${item.name}`, "OK");
         return result;
     }
 
     public async executeQueries() {
         this.logger.log(`Executing every queries`, "INFO");
-        this.configuration.searches.filter(search => search.disabled == false).forEach(async(search) => {
-            const result = await this.getContent(search.queries, search);
-            this.logger.log(`Got ${result.length} items for ${search.name}`, "OK");
+        this.configuration.items.filter(item => item.disabled == false).forEach(async(item) => {
+            const result = await this.getContent(item.queries, item);
+            this.logger.log(`Got ${result.length} items for ${item.name}`, "OK");
             const messages:Message[] = result.map((vintedItem:PreviewItem) => {
                 return {
                     content: "",
@@ -100,7 +100,7 @@ export class VintedApi {
             
             this.logger.log(`Sending messages`, "INFO");
             for await(var message of messages) {
-                const response = await this.rest.request(`https://discord.com/api/v9/channels/${search.channel_id}/messages`, "POST", {
+                const response = await this.rest.request(`https://discord.com/api/v9/channels/${item.channel_id}/messages`, "POST", {
                     "Authorization": `Bot ${this.configuration.discord_token}`,
                     "Content-Type": "application/json"
                 }, false, message);

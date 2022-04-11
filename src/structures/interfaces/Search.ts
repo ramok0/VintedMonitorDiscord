@@ -1,4 +1,4 @@
-interface Search {
+interface ItemToSearch {
     name: string,
     channel_id: string,
     queries: string[],

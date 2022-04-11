@@ -6,8 +6,8 @@ import { refreshConfiguration } from "../functions/refreshConfiguration";
 
 
 export default class implements VintedBotCommand {
-    name = "disablesearch";
-    description = "Disable search";
+    name = "disableitem";
+    description = "Disable item";
     type = ApplicationCommandTypes.CHAT_INPUT;
     options = [
         {
@@ -21,11 +21,11 @@ export default class implements VintedBotCommand {
     execute = async(client: DiscordClient, interaction: CommandInteraction<CacheType>):Promise<void> => {
         const name = interaction.options.getString("name", true);
         if(!name) return interaction.reply({content: ":x: | Name not found"});
-        const search = client.VintedApi.configuration.searches.find((search) => search.name.toLowerCase() == name.toLowerCase());
-        if(!search) return interaction.reply({content: ":x: | Not found"});
-        search.disabled = !search.disabled;
-        fs.writeFileSync("config.json", JSON.stringify(search, null, 4));
+        const item = client.VintedApi.configuration.items.find((item) => item.name.toLowerCase() == name.toLowerCase());
+        if(!item) return interaction.reply({content: ":x: | Not found"});
+        item.disabled = !item.disabled;
+        fs.writeFileSync("config.json", JSON.stringify(item, null, 4));
         refreshConfiguration(client.VintedApi);
-        interaction.reply({content: `:white_check_mark: | Done !\n${search.name} is now ${search.disabled ? "enabled" : "disabled"}.`})
+        interaction.reply({content: `:white_check_mark: | Done !\n${item.name} is now ${item.disabled ? "enabled" : "disabled"}.`})
     }
 }

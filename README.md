@@ -22,13 +22,13 @@ Install VintedMonitorDiscord with npm
   npm run start
 ```
 
-And then you just have to complete the config.json file with your search params.
+And then you just have to complete the config.json file with your items params.
 
 
 ## Features
 
-- Mutliples searches queries for an item (precise search)
-- Enable/disable searches queries
+- Mutliples search queries for an item (precise searches)
+- Enable/disable items
 - Collect a lot of informations
 - Simple to use
 - Open-Source
