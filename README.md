@@ -39,7 +39,7 @@ And then you just have to complete the config.json file with your items params.
 
 ## Demo Time
 
-![demo](https://cdn.discordapp.com/attachments/946871799151476798/962350387342475365/demo.gif)
+![demo](hhttps://media.discordapp.net/attachments/946871799151476798/969934752561909830/out.gif)
 ## Feedback / Issues
 
 If you have any feedback or if you encounter any issues, you can [create an issue](https://github.com/RamokTVL/VintedMonitorDiscord/issues/new)
