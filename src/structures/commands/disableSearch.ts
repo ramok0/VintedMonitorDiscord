@@ -2,7 +2,6 @@ import { CommandInteraction, CacheType } from "discord.js";
 import fs from "fs";
 import { ApplicationCommandOptionType, ApplicationCommandTypes, VintedBotCommand } from "../interfaces/ApplicationCommand";
 import { DiscordClient } from "../DiscordClient";
-import { refreshConfiguration } from "../functions/refreshConfiguration";
 
 
 export default class implements VintedBotCommand {
@@ -24,8 +23,9 @@ export default class implements VintedBotCommand {
         const item = client.VintedApi.configuration.items.find((item) => item.name.toLowerCase() == name.toLowerCase());
         if(!item) return interaction.reply({content: ":x: | Not found"});
         item.disabled = !item.disabled;
-        fs.writeFileSync("config.json", JSON.stringify(item, null, 4));
-        refreshConfiguration(client.VintedApi);
+
+        client.VintedApi.configuration.saveConfiguration();
+        client.VintedApi.configuration.loadConfiguration();
         interaction.reply({content: `:white_check_mark: | Done !\n${item.name} is now ${item.disabled ? "enabled" : "disabled"}.`})
     }
 }

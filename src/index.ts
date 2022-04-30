@@ -1,12 +1,14 @@
-
-const config:Configuration = require("../config.json");
+import { Configuration } from "./structures/Configuration";
 import { setInterval } from "timers";
 import { VintedApi } from "./structures/VintedApi";
 import { handleInteractions } from "./structures/functions/handleInteractions";
 import { DiscordClient } from "./structures/DiscordClient";
 
+
+var config = new Configuration(null);
 if(config.use_discord_bot) {
-    const client = new DiscordClient(config);
+    const client = new DiscordClient();
+    config = client.VintedApi.configuration;
     client.on("ready", () => {
         handleInteractions(client);
         client.registerCommands();
@@ -25,10 +27,13 @@ if(config.use_discord_bot) {
     });
 
 
-    
+    if(!config.discord_token) {
+        client.VintedApi.logger.log("Invalid Token", "ERROR");
+        process.exit(1);
+    }
     client.login(config.discord_token);
 } else {
-    const api = new VintedApi(config);
+    const api = new VintedApi();
     if(config.fetch_at_start == true) {
         api.executeQueries();
     } 

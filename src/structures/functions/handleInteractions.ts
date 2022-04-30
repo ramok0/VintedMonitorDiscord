@@ -26,6 +26,9 @@ async function handleCommandInteractions(client:DiscordClient, interaction:Comma
 }
 
 async function handleButtonInteraction(client:DiscordClient, interaction:ButtonInteraction) {
+    await interaction.deferReply({
+        ephemeral: true
+    });
     const completeInfos = await client.VintedApi.fetchCompleteInfos(interaction.customId);
     const config = client.VintedApi.configuration;
     const embed = new MessageEmbed();
@@ -38,7 +41,8 @@ async function handleButtonInteraction(client:DiscordClient, interaction:ButtonI
     embed.addField("👚 Marque", strToBigText(completeInfos.brand), true);
     embed.addField("🪥 Etat", strToBigText(completeInfos.etat), false);
     embed.addField("😊 Auteur", strToBigText(completeInfos.user.login), true);
-    embed.addField("➕ Indice de confiance", strToBigText(String(parseFloat(completeInfos.user.feedback_reputation)*100) + "% de satisfaits"), true);
+    var parsedFloat = parseFloat(completeInfos.user.feedback_reputation);
+    embed.addField("➕ Indice de confiance", strToBigText(parsedFloat != 0 ? String(Math.round(parsedFloat*100)) + "% of + reviews" : "No feedback"), true);
     embed.addField("🔟 Nombre d'annonces postés", strToBigText(String(completeInfos.user.total_items_count)), true);
     embed.addField("⏱️ Compte crée le", strToBigText(String(completeInfos.user.created_at.toLocaleDateString())), true);
     embed.addField("⏱️ Dernière activité du compte", strToBigText(String(completeInfos.user.last_loged_on.toLocaleDateString())), true);
@@ -48,8 +52,7 @@ async function handleButtonInteraction(client:DiscordClient, interaction:ButtonI
     embed.setFooter({
         text: "Made by Ramok (github.com/RamokTVL), if you paid this you got scammed"
     });
-    interaction.reply({
-        embeds:[embed],
-        ephemeral: true
+    interaction.editReply({
+        embeds:[embed]
     });
 }

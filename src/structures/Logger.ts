@@ -61,7 +61,8 @@ export class Logger extends Base {
                 toWriteInFile += "[ UNKNOWN ] "
                 break;
         }
-        if(this.VintedApi.configuration.logs_in_console == true) {
+    
+        if(this.VintedApi.configuration != null && this.VintedApi.configuration.logs_in_console == true) {
             writeColor(text, color, type);
         }
 

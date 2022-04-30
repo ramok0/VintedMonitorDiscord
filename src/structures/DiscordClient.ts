@@ -5,9 +5,9 @@ import { Dirent, readdirSync } from "fs";
 export class DiscordClient extends Client {
     public VintedApi:VintedApi;
     public commands:Map<string, VintedBotCommand>;
-    constructor(configuration:Configuration) {
+    constructor() {
         super({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_INTEGRATIONS]});
-        this.VintedApi = new VintedApi(configuration);
+        this.VintedApi = new VintedApi();
         this.commands = new Map();
     }
 

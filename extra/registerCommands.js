@@ -28,5 +28,6 @@ const fs = require("fs");
         validateStatus: () => true,
     });
 
-    console.log(response.status)
+    console.log(response.status);
+    console.log(JSON.stringify(response.data))
 })();

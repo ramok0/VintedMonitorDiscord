@@ -5,7 +5,7 @@ import { UnparsedCompleteInfos } from "./api/ItemInfo";
 import { PreviewItemToEmbed } from "./functions/PreviewItemToEmbed";
 import { Logger } from "./Logger";
 import { checkConfigIntegrity } from "./functions/checkConfigIntregrity";
-
+import { Configuration } from "./Configuration";
 
 const wait = require("util").promisify(setTimeout);
 
@@ -14,11 +14,11 @@ export class VintedApi {
     private rest:Rest;
     private trashBin:number[];
     public logger:Logger;
-    constructor(settings:Configuration) {
-        this.configuration = settings;
+    constructor() {
         this.rest = new Rest(this);
         this.trashBin = [];
         this.logger = new Logger(this);
+        this.configuration = new Configuration(this.logger);
         this.logger.log("Created VintedApi successfully", "OK");
         if(!checkConfigIntegrity(this.configuration, this.logger)) {
             
